@@ -1,7 +1,45 @@
+import 'package:comp202/pages/welcome.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
+import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
 
 class LoginScreen extends StatelessWidget {
+
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  Future Login(BuildContext cont) async {
+    if(username.text == "" || password.text == ""){
+      Fluttertoast.showToast(
+        msg: "Please enter your name and password",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        fontSize: 16.0,
+      );
+    }else{
+
+      var url =  "http://192.168.56.1/localconnect/login.php";
+      var response = await http.post(url as Uri, body: {
+        "username": username.text,
+        "password": password.text,
+      });
+
+      var data = json.decode(response.body);
+      if(data == "Login successful!"){
+        Navigator.push(cont, MaterialPageRoute(builder: (context) => WelcomeScreen()));
+      }else{
+        Fluttertoast.showToast(
+          msg: "Username or Password was wrong",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          fontSize: 16.0,
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +80,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: Container(
                       child: TextFormField(
+                        controller: username,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'user@gmail.com',
@@ -65,6 +104,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: Container(
                       child: TextFormField(
+                        controller: password,
                         obscureText: true,
                         obscuringCharacter: "*",
                         decoration: InputDecoration(
@@ -89,7 +129,9 @@ class LoginScreen extends StatelessWidget {
                       horizontal: 1,
                     ),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                         Login(context);
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         child: Padding(
