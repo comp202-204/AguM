@@ -21,13 +21,14 @@ class LoginScreen extends StatelessWidget {
     }else{
 
       var url =  "http://192.168.56.1/localconnect/login.php";
-      var response = await http.post(url as Uri, body: {
+      var response = await http.post(Uri.parse(url), body: {
         "username": username.text,
         "password": password.text,
-      });
+      },);
 
       var data = json.decode(response.body);
-      if(data == "Login successful!"){
+
+      if(data == "Success"){
         Navigator.push(cont, MaterialPageRoute(builder: (context) => WelcomeScreen()));
       }else{
         Fluttertoast.showToast(
@@ -38,6 +39,7 @@ class LoginScreen extends StatelessWidget {
         );
       }
     }
+
   }
 
   @override
