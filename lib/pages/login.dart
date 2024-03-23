@@ -8,28 +8,28 @@ import 'dart:convert';
 
 class LoginScreen extends StatelessWidget {
 
-  TextEditingController username = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   Future Login(BuildContext cont) async {
-    if(username.text == "" || password.text == ""){
+    if(email.text == "" || password.text == ""){
       Fluttertoast.showToast(
-        msg: "Please enter your name and password",
+        msg: "Please enter your email and password",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         fontSize: 16.0,
       );
     }else{
 
-      var url =  "http://192.168.56.1/localconnect/login.php";
+      var url = "http://192.168.56.1/localconnect/login.php";
       var response = await http.post(Uri.parse(url), body: {
-        "username": username.text,
+        "email": email.text,
         "password": password.text,
       },);
 
       var data = json.decode(response.body);
 
-      if(data == "Success"){
+      if(data == "success"){
         Navigator.push(cont, MaterialPageRoute(builder: (context) => WelcomeScreen()));
       }else{
         Fluttertoast.showToast(
@@ -80,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: Container(
                       child: TextFormField(
-                        controller: username,
+                        controller: email,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'user@mail.com',
@@ -130,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: TextButton(
                       onPressed: () {
-                         Login(context);
+                        Login(context);
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
@@ -168,7 +168,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         onTap: () {
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                         },
                       )
                     ],
@@ -182,4 +182,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
