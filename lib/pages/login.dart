@@ -1,3 +1,4 @@
+import 'package:comp202/pages/signup.dart';
 import 'package:comp202/pages/welcome.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -52,15 +53,12 @@ class LoginScreen extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Positioned(
-              child: Image.asset("assets/images/main_top.png"),
-              width: 180,
-              top: 0,
-              left: 0,
-            ),
-            Positioned(
-              child: Image.asset("assets/images/login_bottom.png"),
-              width: 180,
-              bottom: -10,
+              child: Image.asset(
+                "assest/photos/logo.png",
+                width: 80,
+              ),
+              top: -80,
+              left: 0, // Set to null to allow the right property to take effect
               right: 0,
             ),
             SingleChildScrollView(
@@ -85,17 +83,17 @@ class LoginScreen extends StatelessWidget {
                         controller: username,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'user@gmail.com',
+                          hintText: 'user@mail.com',
                           hintStyle: TextStyle(color: Colors.black),
                           prefixIcon: Icon(
                             Icons.person,
-                            color: Colors.purple[darkPink],
+                            color: Colors.black38,
                           ),
                         ),
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(borderRadius),
-                        color: Colors.purple[lightPink],
+                        color: Colors.red.shade200,
                       ),
                     ),
                   ),
@@ -115,13 +113,13 @@ class LoginScreen extends StatelessWidget {
                           hintStyle: TextStyle(color: Colors.black),
                           prefixIcon: Icon(
                             Icons.lock,
-                            color: Colors.purple[darkPink],
+                            color: Colors.black38,
                           ),
                         ),
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(borderRadius),
-                        color: Colors.purple[lightPink],
+                        color: Colors.red.shade200,
                       ),
                     ),
                   ),
@@ -160,17 +158,17 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("don't have an account yet?"),
+                      Text("Don't have an account yet? "),
                       GestureDetector(
                         child: Text(
-                          'register',
+                          'REGISTER',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             decoration: TextDecoration.underline,
                           ),
                         ),
                         onTap: () {
-                          print('go to the register page');
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                         },
                       )
                     ],
@@ -184,3 +182,4 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
