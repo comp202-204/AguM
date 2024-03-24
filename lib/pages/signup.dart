@@ -10,30 +10,36 @@ class SignUpScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  Future Login(BuildContext cont) async {
-    if(emailController.text == "" || passwordController.text == "" || usernameController == ""){
+  Future Register(BuildContext cont) async {
+    if(emailController.text == "" || passwordController.text == "" || usernameController.text == ""){
       Fluttertoast.showToast(
-        msg: "Please enter your email and password",
+        msg: "Please enter your email, password and username",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         fontSize: 16.0,
       );
     }else{
 
-      var url = "http://192.168.56.1/localconnect/login.php";
+      var url = "http://192.168.56.1/localconnect/register.php";
       var response = await http.post(Uri.parse(url), body: {
-        "username" : usernameController,
+        "username" : usernameController.text,
         "email": emailController.text,
         "password": passwordController.text,
       },);
 
       var data = json.decode(response.body);
 
-      if(data == "success"){
+      if(data == "Register Successed"){
+        Fluttertoast.showToast(
+          msg: "Registeration success",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          fontSize: 16.0,
+        );
         Navigator.push(cont, MaterialPageRoute(builder: (context) => WelcomeScreen()));
       }else{
         Fluttertoast.showToast(
-          msg: "Username or Password was wrong",
+          msg: "This email already exist",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           fontSize: 16.0,
@@ -43,9 +49,7 @@ class SignUpScreen extends StatelessWidget {
 
   }
 
-
-
-  void register(BuildContext context) {
+  /*void register(BuildContext context) {
     String username = usernameController.text;
     String email = emailController.text;
     String password = passwordController.text;
@@ -54,6 +58,7 @@ class SignUpScreen extends StatelessWidget {
     print('Email: $email');
     print('Password: $password');
   }
+  */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,7 +133,7 @@ class SignUpScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => register(context),
+              onPressed: () => Register(context),
               child: Text('Sign Up'),
             ),
           ],
