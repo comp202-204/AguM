@@ -1,29 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:comp202/pages/homescreen.dart';
 import 'pages/login.dart';
 import 'pages/signup.dart';
-import 'pages/welcome.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'AGUM',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        iconTheme: const IconThemeData(color: Colors.white),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          selectedIconTheme: IconThemeData(
+            color: Colors.blue[600],
+          ),
+          unselectedIconTheme: IconThemeData(
+            color: Colors.indigo[100],
+          ),
+        ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          clipBehavior: Clip.antiAlias,
+          modalBackgroundColor: Colors.white,
+          modalElevation: 0,
+        ),
       ),
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignUpScreen(),
-        '/welcome': (context) => WelcomeScreen()
+        '/home': (context) => HomeScreen(),
       },
     );
   }

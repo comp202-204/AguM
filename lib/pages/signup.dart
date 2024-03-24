@@ -1,4 +1,4 @@
-import 'package:comp202/pages/welcome.dart';
+import 'package:comp202/pages/homescreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,7 +20,7 @@ class SignUpScreen extends StatelessWidget {
       );
     }else{
 
-      var url = "http://192.168.56.1/localconnect/register.php";
+      var url = "http://10.32.2.149/localconnect/register.php";
       var response = await http.post(Uri.parse(url), body: {
         "username" : usernameController.text,
         "email": emailController.text,
@@ -36,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
           gravity: ToastGravity.CENTER,
           fontSize: 16.0,
         );
-        Navigator.push(cont, MaterialPageRoute(builder: (context) => WelcomeScreen()));
+        Navigator.push(cont, MaterialPageRoute(builder: (context) => HomeScreen()));
       }else{
         Fluttertoast.showToast(
           msg: "This email already exist",
