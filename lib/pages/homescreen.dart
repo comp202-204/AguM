@@ -26,26 +26,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Exercises> excerciseList = [
     Exercises(
-      title: 'Speaking Skills',
+      title: 'Lunch',
       subtitle: '16 Exercises',
       color: Colors.orange[800],
-      icon: const Icon(Icons.favorite_outlined),
+      icon: const Icon(Icons.restaurant),
     ),
     Exercises(
-        title: 'Reading Speed',
+        title: 'Events',
         subtitle: '16 Exercises',
         color: Colors.blue[500],
-        icon: const Icon(Icons.person)),
+        icon: const Icon(Icons.event)),
     Exercises(
-        title: 'Coding Skills',
+        title: 'Annoucements',
         subtitle: '16 Exercises',
         color: Colors.pink[400],
-        icon: const Icon(Icons.account_balance_wallet_rounded)),
+        icon: const Icon(Icons.announcement)),
     Exercises(
-      title: 'Speaking Skills',
+      title: 'Campus Map',
       subtitle: '16 Exercises',
       color: Colors.green[300],
-      icon: const Icon(Icons.adb),
+      icon: const Icon(Icons.map_outlined),
     ),
   ];
 
@@ -56,7 +56,96 @@ class _HomeScreenState extends State<HomeScreen> {
     String dateText = "${date.day} ${months[date.month - 1]}, ${date.year}";
 
     return Scaffold(
-      backgroundColor: Colors.blue[600],
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Image.asset(
+              'assets/photos/library.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  children: [
+                    // Header
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'AGUM',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(height: 9),
+                            Text(
+                              dateText,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blueGrey.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.notifications,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Search bar
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blueGrey.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.search_outlined,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          border: InputBorder.none,
+                          hintText: 'Search',
+                          hintStyle: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 18),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -89,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(top: 25.0, right: 25, left: 25),
                 child: Column(
                   children: [
-                    // title
+                    // Title
                     TitleWithMoreHoriz(
                       title: 'Exercises',
                       onPressed: () {},
@@ -121,100 +210,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: Column(
-              children: [
-                // header
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Hi, John!',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
-                        const SizedBox(height: 9),
-                        Text(
-                          dateText,
-                          style: TextStyle(
-                            color: Colors.blue[100],
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue[400],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.notifications,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-
-                const SizedBox(height: 18),
-
-                // search bar
-                Container(
-                  // padding: const EdgeInsets.all(1),
-                  decoration: BoxDecoration(
-                    color: Colors.blue[400],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.search_outlined,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      border: InputBorder.none,
-                      hintText: 'Search',
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 18),
-
-                // how do you feel?
-                TitleWithMoreHoriz(title: 'How do you feel?', onPressed: () {}),
-
-                const SizedBox(height: 18),
-
-                //emoji sec
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    EmojiContainer(emoji: '😔', emotionText: 'Badly'),
-                    EmojiContainer(emoji: '😊', emotionText: 'Fine'),
-                    EmojiContainer(emoji: '😌', emotionText: 'Excellent'),
-                    EmojiContainer(emoji: '😉', emotionText: 'Excited'),
-                  ],
-                )
-              ],
-            ),
-          )
-        ],
-      ),
     );
+
   }
 }
 
@@ -318,39 +315,6 @@ class TitleWithMoreHoriz extends StatelessWidget {
         //   icon: Icon(Icons.more_horiz, color: color),
         //   onPressed: onPressed,
         // )
-      ],
-    );
-  }
-}
-
-class EmojiContainer extends StatelessWidget {
-  final String emoji;
-  final String emotionText;
-  const EmojiContainer(
-      {super.key, required this.emoji, required this.emotionText});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.blue[500],
-          ),
-          child: Text(
-            emoji,
-            style: const TextStyle(fontSize: 25),
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Text(
-          emotionText,
-          style: const TextStyle(color: Colors.white),
-        )
       ],
     );
   }

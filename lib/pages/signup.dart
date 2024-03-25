@@ -1,6 +1,8 @@
+import 'package:comp202/constants.dart';
 import 'package:comp202/pages/homescreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -20,7 +22,7 @@ class SignUpScreen extends StatelessWidget {
       );
     }else{
 
-      var url = "http://10.32.2.149/localconnect/register.php";
+      var url = "http://10.31.11.189/localconnect/register.php";
       var response = await http.post(Uri.parse(url), body: {
         "username" : usernameController.text,
         "email": emailController.text,
@@ -63,16 +65,34 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text(
+          'SIGN UP',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: SingleChildScrollView(
+      child: Container(
+      width: double.infinity,
+      child: Column(
+          children: [
+          SizedBox(height: 40),
+      Image.asset(
+        "assets/photos/agüentrance.jpg",
+        width: 500,
+      ),
+      SizedBox(height: 30),
+      Padding(
+        padding: const EdgeInsets.all(18.0),
         child: Column(
           children: [
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.red.shade200,
+                borderRadius: BorderRadius.circular(borderRadius),
+                  color: Color.fromRGBO(205, 103, 103, 0.5),
               ),
               child: TextFormField(
                 controller: usernameController,
@@ -81,19 +101,19 @@ class SignUpScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter your username',
-                  hintStyle: TextStyle(color: Colors.black),
+                  hintStyle: TextStyle(color: Colors.white),
                   prefixIcon: Icon(
-                    Icons.lock,
-                    color: Colors.black38,
+                    Icons.person,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 18),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.red.shade200,
+                borderRadius: BorderRadius.circular(borderRadius),
+                color: Color.fromRGBO(205, 103, 103, 0.5),
               ),
               child: TextFormField(
                 controller: emailController,
@@ -102,19 +122,19 @@ class SignUpScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter your email',
-                  hintStyle: TextStyle(color: Colors.black),
+                  hintStyle: TextStyle(color: Colors.white),
                   prefixIcon: Icon(
                     Icons.email,
-                    color: Colors.black38,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 18),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.red.shade200,
+                borderRadius: BorderRadius.circular(borderRadius),
+                color: Color.fromRGBO(205, 103, 103, 0.5),
               ),
               child: TextFormField(
                 controller: passwordController,
@@ -123,22 +143,49 @@ class SignUpScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Enter your password',
-                  hintStyle: TextStyle(color: Colors.black),
+                  hintStyle: TextStyle(color: Colors.white),
                   prefixIcon: Icon(
                     Icons.lock,
-                    color: Colors.black38,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 1,
+              ),
+            ),
+            TextButton(
               onPressed: () => Register(context),
-              child: Text('Sign Up'),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Text(
+                      'SIGN UP',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(174,32,41,1),
+                  borderRadius: BorderRadius.circular(borderRadius),
+                ),
+              ),
             ),
           ],
         ),
-      ),
+    ),
+    ],
+    ),
+    ),),
     );
   }
 }

@@ -8,32 +8,32 @@ import 'dart:convert';
 
 class LoginScreen extends StatelessWidget {
 
-  TextEditingController username = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   Future Login(BuildContext cont) async {
-    if(username.text == "" || password.text == ""){
+    if(email.text == "" || password.text == ""){
       Fluttertoast.showToast(
-        msg: "Please enter your name and password",
+        msg: "Please enter your Email and Password",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         fontSize: 16.0,
       );
     }else{
 
-      var url =  "http://10.32.2.149/localconnect/login.php";
+      var url =  "http://10.31.11.189/localconnect/login.php";
       var response = await http.post(Uri.parse(url), body: {
-        "username": username.text,
+        "email": email.text,
         "password": password.text,
       },);
 
       var data = json.decode(response.body);
 
-      if(data == "Success"){
+      if(data == "success"){
         Navigator.push(cont, MaterialPageRoute(builder: (context) => HomeScreen()));
       }else{
         Fluttertoast.showToast(
-          msg: "Username or Password was wrong",
+          msg: "Email or Password was wrong",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           fontSize: 16.0,
@@ -54,10 +54,10 @@ class LoginScreen extends StatelessWidget {
           children: [
             Positioned(
               child: Image.asset(
-                "assest/photos/logo.png",
+                "assets/photos/logo.jpg",
                 width: 80,
               ),
-              top: -80,
+              top: -120,
               left: 0, // Set to null to allow the right property to take effect
               right: 0,
             ),
@@ -65,14 +65,7 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'LOGIN',
-                    style: TextStyle(
-                      fontSize: titleFontSize,
-                      fontWeight: titleFontWeight,
-                    ),
-                  ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 100),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 10,
@@ -80,20 +73,20 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: Container(
                       child: TextFormField(
-                        controller: username,
+                        controller: email,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'user@mail.com',
-                          hintStyle: TextStyle(color: Colors.black),
+                          hintText: 'xyz@mail.com',
+                          hintStyle: TextStyle(color: Colors.white),
                           prefixIcon: Icon(
                             Icons.person,
-                            color: Colors.black38,
+                            color: Colors.white,
                           ),
                         ),
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(borderRadius),
-                        color: Colors.red.shade200,
+                        color: Color.fromRGBO(205, 103, 103, 0.5),
                       ),
                     ),
                   ),
@@ -110,16 +103,16 @@ class LoginScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: '******',
-                          hintStyle: TextStyle(color: Colors.black),
+                          hintStyle: TextStyle(color: Colors.white),
                           prefixIcon: Icon(
                             Icons.lock,
-                            color: Colors.black38,
+                            color: Colors.white,
                           ),
                         ),
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(borderRadius),
-                        color: Colors.red.shade200,
+                        color: Color.fromRGBO(205, 103, 103, 0.5),
                       ),
                     ),
                   ),
@@ -146,7 +139,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.purple[darkPink],
+                          color: Color.fromRGBO(174,32,41,1),
                           borderRadius: BorderRadius.circular(borderRadius),
                         ),
                       ),
@@ -158,12 +151,12 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Don't have an account yet? "),
+                      Text("Don't you have an account ? "),
                       GestureDetector(
                         child: Text(
                           'REGISTER',
                           style: TextStyle(
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w900,
                             decoration: TextDecoration.underline,
                           ),
                         ),
