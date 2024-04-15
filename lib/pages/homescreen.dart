@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:comp202/pages/homepage/models/exercise.dart';
+import 'package:comp202/pages/DetailPages/AnnouncementsDetailPage.dart';
+import 'package:comp202/pages/DetailPages/CampusMapDetailPage.dart';
+import 'package:comp202/pages/DetailPages/EventsDetailPage.dart';
+import 'package:comp202/pages/DetailPages/LunchDetailPage.dart';
+import 'package:comp202/pages/Models/exercise.dart';
+import 'package:comp202/pages/settingspage.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List months = [
+  List<String> months = [
     'Jan',
     'Feb',
     'Mar',
@@ -24,27 +29,29 @@ class _HomeScreenState extends State<HomeScreen> {
     'Dec'
   ];
 
-  List<Exercises> excerciseList = [
+  List<Exercises> exerciseList = [
     Exercises(
       title: 'Lunch',
       subtitle: '16 Exercises',
-      color: Colors.orange[800],
+      color: Colors.orange[800]!,
       icon: const Icon(Icons.restaurant),
     ),
     Exercises(
-        title: 'Events',
-        subtitle: '16 Exercises',
-        color: Colors.blue[500],
-        icon: const Icon(Icons.event)),
+      title: 'Events',
+      subtitle: '16 Exercises',
+      color: Colors.blue[500]!,
+      icon: const Icon(Icons.event),
+    ),
     Exercises(
-        title: 'Annoucements',
-        subtitle: '16 Exercises',
-        color: Colors.pink[400],
-        icon: const Icon(Icons.announcement)),
+      title: 'Announcements',
+      subtitle: '16 Exercises',
+      color: Colors.pink[400]!,
+      icon: const Icon(Icons.announcement),
+    ),
     Exercises(
       title: 'Campus Map',
       subtitle: '16 Exercises',
-      color: Colors.green[300],
+      color: Colors.green[300]!,
       icon: const Icon(Icons.map_outlined),
     ),
   ];
@@ -133,7 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           border: InputBorder.none,
                           hintText: 'Search',
-                          hintStyle: TextStyle(color: Colors.white, fontSize: 12),
+                          hintStyle:
+                          TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ),
                     ),
@@ -153,12 +161,23 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard), label: 'Dashboard'),
-          BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'Inbox'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          } else if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingsPage()),
+            );
+          }
+        },
       ),
+
       bottomSheet: BottomSheet(
         onClosing: () {},
         builder: (
@@ -188,9 +207,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 10),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: excerciseList.length,
+                        itemCount: exerciseList.length,
                         itemBuilder: (context, index) {
-                          Exercises e = excerciseList[index];
+                          Exercises e = exerciseList[index];
 
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
@@ -198,8 +217,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: e.icon,
                               title: e.title,
                               subtitle: e.subtitle,
-                              onSideIconTap: () {},
                               color: e.color,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => getDetailPage(e.title),
+                                  ),
+                                );
+                              },
                             ),
                           );
                         },
@@ -211,7 +237,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
       ),
     );
+  }
 
+  Widget getDetailPage(String title) {
+    switch (title) {
+      case "Lunch":
+        return LunchDetailPage(); // Assuming you have a LunchDetailPage widget
+      case "Events":
+        return EventsDetailPage(); // Assuming you have an EventsDetailPage widget
+      case "Announcements":
+        return AnnouncementsDetailPage(); // Assuming you have an AnnouncementsDetailPage widget
+      case "Campus Map":
+        return CampusMapDetailPage(); // Assuming you have a CampusMapDetailPage widget
+      default:
+        return Container(); // Default case, you can change it accordingly
+    }
   }
 }
 
@@ -220,20 +260,22 @@ class ExercisesCard extends StatelessWidget {
   final Color color;
   final String title;
   final String subtitle;
+  final VoidCallback onTap;
 
-  final VoidCallback onSideIconTap;
-
-  const ExercisesCard(
-      {super.key,
-        required this.icon,
-        required this.title,
-        required this.subtitle,
-        required this.onSideIconTap,
-        required this.color});
+  const ExercisesCard({
+    Key? key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.color,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -243,7 +285,6 @@ class ExercisesCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //icon
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -252,30 +293,43 @@ class ExercisesCard extends StatelessWidget {
               ),
               child: icon,
             ),
-            const SizedBox(
-              width: 10,
-            ),
+            const SizedBox(width: 10),
             Expanded(
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitleWithMoreHoriz(
-                      title: title,
-                      onPressed: onSideIconTap,
-                      color: Colors.black,
-                      titleFontSize: 12,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(20),
+                          onTap: onTap,
+                          child:
+                          Icon(Icons.more_horiz, color: Colors.black, size: 20),
+                        ),
+                      ],
                     ),
                     Text(
                       subtitle,
-                      style: TextStyle(color: Colors.grey[400], fontSize: 10),
+                      style: TextStyle(color: Colors.grey[400], fontSize: 12),
                     )
                   ],
                 ),
               ),
             )
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
 
@@ -285,12 +339,13 @@ class TitleWithMoreHoriz extends StatelessWidget {
   final VoidCallback onPressed;
   final double? titleFontSize;
 
-  const TitleWithMoreHoriz(
-      {super.key,
-        required this.title,
-        required this.onPressed,
-        this.color = Colors.white,
-        this.titleFontSize = 16});
+  const TitleWithMoreHoriz({
+    Key? key,
+    required this.title,
+    required this.onPressed,
+    this.color = Colors.white,
+    this.titleFontSize = 16,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -305,16 +360,10 @@ class TitleWithMoreHoriz extends StatelessWidget {
             fontSize: titleFontSize,
           ),
         ),
-
         InkWell(
             borderRadius: BorderRadius.circular(20),
             onTap: onPressed,
             child: Icon(Icons.more_horiz, color: color, size: 20)),
-        // IconButton(
-        //   padding: const EdgeInsets.all(0),
-        //   icon: Icon(Icons.more_horiz, color: color),
-        //   onPressed: onPressed,
-        // )
       ],
     );
   }
