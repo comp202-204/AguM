@@ -285,14 +285,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-  wifi_ip_details:
-    dependency: "direct main"
-    description:
-      name: wifi_ip_details
-      sha256: f344942f7e690871aaaf2e988cd9219dca5b8f5ab506c721977750b4cee4ead3
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
 sdks:
   dart: ">=3.3.0 <4.0.0"
   flutter: ">=1.16.0"

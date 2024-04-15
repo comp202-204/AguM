@@ -277,7 +277,10 @@ class ExercisesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+
+      child:
+      Container(
+
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
