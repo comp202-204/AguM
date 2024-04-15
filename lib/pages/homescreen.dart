@@ -163,6 +163,8 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
+        selectedIconTheme: IconThemeData(color: Colors.black26),
+        unselectedIconTheme: IconThemeData(color: Colors.black26),
         onTap: (index) {
           if (index == 0) {
             Navigator.pushReplacement(
@@ -185,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ) =>
             Container(
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Colors.white70,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
