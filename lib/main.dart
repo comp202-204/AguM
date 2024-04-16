@@ -48,3 +48,4 @@ class ThemeProvider with ChangeNotifier {
 
   ThemeData get themeData => _isDarkMode ? ThemeData.dark() : ThemeData.light();
 }
+

@@ -34,25 +34,25 @@ class _HomeScreenState extends State<HomeScreen> {
       title: 'Lunch',
       subtitle: '16 Exercises',
       color: Colors.orange[800]!,
-      icon: const Icon(Icons.restaurant),
+      icon: const Icon(Icons.restaurant,color: Colors.white),
     ),
     Exercises(
       title: 'Events',
       subtitle: '16 Exercises',
       color: Colors.blue[500]!,
-      icon: const Icon(Icons.event),
+      icon: const Icon(Icons.event,color: Colors.white),
     ),
     Exercises(
       title: 'Announcements',
       subtitle: '16 Exercises',
       color: Colors.pink[400]!,
-      icon: const Icon(Icons.announcement),
+      icon: const Icon(Icons.announcement,color: Colors.white),
     ),
     Exercises(
       title: 'Campus Map',
       subtitle: '16 Exercises',
       color: Colors.green[300]!,
-      icon: const Icon(Icons.map_outlined),
+      icon: const Icon(Icons.map_outlined,color: Colors.white),
     ),
   ];
 
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String dateText = "${date.day} ${months[date.month - 1]}, ${date.year}";
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Positioned(
@@ -157,14 +157,14 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(207, 226, 243, 1),
         elevation: 0,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-        selectedIconTheme: IconThemeData(color: Colors.black26),
-        unselectedIconTheme: IconThemeData(color: Colors.black26),
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          ],
+          selectedIconTheme: IconThemeData(color: Colors.grey), // Seçilen icon rengi
+          unselectedIconTheme: IconThemeData(color: Colors.grey), // Seçilmeyen icon rengi
         onTap: (index) {
           if (index == 0) {
             Navigator.pushReplacement(
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ) =>
             Container(
               decoration: const BoxDecoration(
-                color: Colors.white70,
+                color: Color.fromRGBO(207, 226, 243, 1),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
@@ -200,8 +200,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     // Title
-                    TitleWithMoreHoriz(
-                      title: 'Exercises',
+                    Title(
+                      title: 'Titles',
                       onPressed: () {},
                       color: Colors.black,
                     ),
@@ -277,15 +277,13 @@ class ExercisesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-
       child:
       Container(
-
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(width: 0.8, color: Colors.grey.shade100),
+          border: Border.all(width: 0.8, color: Colors.white),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -315,12 +313,6 @@ class ExercisesCard extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
-                        InkWell(
-                          borderRadius: BorderRadius.circular(20),
-                          onTap: onTap,
-                          child:
-                          Icon(Icons.more_horiz, color: Colors.black, size: 20),
-                        ),
                       ],
                     ),
                     Text(
@@ -338,13 +330,13 @@ class ExercisesCard extends StatelessWidget {
   }
 }
 
-class TitleWithMoreHoriz extends StatelessWidget {
+class Title extends StatelessWidget {
   final String title;
   final Color? color;
   final VoidCallback onPressed;
   final double? titleFontSize;
 
-  const TitleWithMoreHoriz({
+  const Title({
     Key? key,
     required this.title,
     required this.onPressed,

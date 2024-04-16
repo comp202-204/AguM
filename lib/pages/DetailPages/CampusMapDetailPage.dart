@@ -9,40 +9,67 @@ class CampusMapDetailPage extends StatelessWidget {
       ),
       body: ListViewCampus(),
       backgroundColor: Colors.grey,
-
     );
   }
 }
-class ListViewCampus extends StatelessWidget{
-  final List<SizedBox> box = [
-    SizedBox()
 
-  ];
-
+class ListViewCampus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: box.length,
+      itemCount: 6, // Toplamda 6 tane kutu olacak
       itemBuilder: (BuildContext context, int index) {
-        return  SizedBox(width: 200, // Width of the rectangle
-        height: 150, // Height of the rectangle
-        child: DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-          image: AssetImage('assets/photos/lab1.jpeg'), // Using an asset image
-          fit: BoxFit.cover, // Cover the entire box
-        ),
-           // Background color of the rectangle
-        ),
-        child: Center(
-        child: Text(
-        'Lab',
-        style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        ),
-        ),
+        return GestureDetector(
+          onTap: () {
+            // Her bir kutuya tıklandığında yeni sayfa açılması
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailPage(index: index),
+              ),
+            );
+          },
+          child: SizedBox(
+            width: 200, // Kutunun genişliği
+            height: 150, // Kutunun yüksekliği
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/photos/lab1.jpeg'), // Asset resmi kullanma
+                  fit: BoxFit.cover, // Tüm kutuyu kaplayacak şekilde resmi boyutlandır
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  'Lab', // Kutunun içindeki metin
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            ),
+          ),
         );
       },
+    );
+  }
+}
+
+class DetailPage extends StatelessWidget {
+  final int index;
+
+  DetailPage({required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Box $index Detail'),
+      ),
+      body: Center(
+        child: Text(
+          'Detay sayfası',
+          style: TextStyle(fontSize: 20),
+        ),
+      ),
     );
   }
 }
