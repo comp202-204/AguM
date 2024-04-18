@@ -18,7 +18,7 @@ class LabDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FirstFactoryDetailPage(),
+                        builder: (context) => FirstLabDetailPage(),
                       ),
                     );
                   },
@@ -29,7 +29,7 @@ class LabDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SecondFactoryDetailPage(),
+                        builder: (context) => SecondLabDetailPage(),
                       ),
                     );
                   },
@@ -40,7 +40,7 @@ class LabDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ThirdFactoryDetailPage(),
+                        builder: (context) => ThirdLabDetailPage(),
                       ),
                     );
                   },
@@ -54,43 +54,43 @@ class LabDetailPage extends StatelessWidget {
   }
 }
 
-class FirstFactoryDetailPage extends StatelessWidget {
+class FirstLabDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İlk Fabrika Detayları'),
+        title: Text('İlk Lab Detayları'),
       ),
       body: Center(
-        child: Text('İlk fabrika detayları burada gösterilecek'),
+        child: Text('İlk Lab detayları burada gösterilecek'),
       ),
     );
   }
 }
 
-class SecondFactoryDetailPage extends StatelessWidget {
+class SecondLabDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İkinci Fabrika Detayları'),
+        title: Text('İkinci Lab Detayları'),
       ),
       body: Center(
-        child: Text('İkinci fabrika detayları burada gösterilecek'),
+        child: Text('İkinci Lab detayları burada gösterilecek'),
       ),
     );
   }
 }
 
-class ThirdFactoryDetailPage extends StatelessWidget {
+class ThirdLabDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Üçüncü Fabrika Detayları'),
+        title: Text('Üçüncü Lab Detayları'),
       ),
       body: Center(
-        child: Text('Üçüncü fabrika detayları burada gösterilecek'),
+        child: Text('Üçüncü Lab detayları burada gösterilecek'),
       ),
     );
   }

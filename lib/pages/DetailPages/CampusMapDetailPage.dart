@@ -19,7 +19,7 @@ class CampusMapDetailPage extends StatelessWidget {
         title: Text('Campus Map Detail'),
       ),
       body: ListViewCampus(),
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
     );
   }
 }

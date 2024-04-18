@@ -18,7 +18,7 @@ class SteelBuildingDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FirstFactoryDetailPage(),
+                        builder: (context) => FirstSteelBuildingDetailPage(),
                       ),
                     );
                   },
@@ -29,7 +29,7 @@ class SteelBuildingDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SecondFactoryDetailPage(),
+                        builder: (context) => SecondSteelBuildingDetailPage(),
                       ),
                     );
                   },
@@ -40,7 +40,7 @@ class SteelBuildingDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ThirdFactoryDetailPage(),
+                        builder: (context) => ThirdSteelBuildingDetailPage(),
                       ),
                     );
                   },
@@ -54,43 +54,43 @@ class SteelBuildingDetailPage extends StatelessWidget {
   }
 }
 
-class FirstFactoryDetailPage extends StatelessWidget {
+class FirstSteelBuildingDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İlk Fabrika Detayları'),
+        title: Text('İlk SteelBuilding Detayları'),
       ),
       body: Center(
-        child: Text('İlk fabrika detayları burada gösterilecek'),
+        child: Text('İlk SteelBuilding detayları burada gösterilecek'),
       ),
     );
   }
 }
 
-class SecondFactoryDetailPage extends StatelessWidget {
+class SecondSteelBuildingDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İkinci Fabrika Detayları'),
+        title: Text('İkinci SteelBuilding Detayları'),
       ),
       body: Center(
-        child: Text('İkinci fabrika detayları burada gösterilecek'),
+        child: Text('İkinci SteelBuilding detayları burada gösterilecek'),
       ),
     );
   }
 }
 
-class ThirdFactoryDetailPage extends StatelessWidget {
+class ThirdSteelBuildingDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Üçüncü Fabrika Detayları'),
+        title: Text('Üçüncü SteelBuilding Detayları'),
       ),
       body: Center(
-        child: Text('Üçüncü fabrika detayları burada gösterilecek'),
+        child: Text('Üçüncü SteelBuilding detayları burada gösterilecek'),
       ),
     );
   }

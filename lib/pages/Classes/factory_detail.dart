@@ -59,10 +59,10 @@ class FirstFactoryDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İlk Fabrika Detayları'),
+        title: Text('İlk Factory Detayları'),
       ),
       body: Center(
-        child: Text('İlk fabrika detayları burada gösterilecek'),
+        child: Text('İlk Factory detayları burada gösterilecek'),
       ),
     );
   }
@@ -73,10 +73,10 @@ class SecondFactoryDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İkinci Fabrika Detayları'),
+        title: Text('İkinci Factory Detayları'),
       ),
       body: Center(
-        child: Text('İkinci fabrika detayları burada gösterilecek'),
+        child: Text('İkinci Factory detayları burada gösterilecek'),
       ),
     );
   }
@@ -87,10 +87,10 @@ class ThirdFactoryDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Üçüncü Fabrika Detayları'),
+        title: Text('Üçüncü Factory Detayları'),
       ),
       body: Center(
-        child: Text('Üçüncü fabrika detayları burada gösterilecek'),
+        child: Text('Üçüncü Factory detayları burada gösterilecek'),
       ),
     );
   }
