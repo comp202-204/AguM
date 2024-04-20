@@ -1,6 +1,5 @@
 import 'package:comp202/pages/DetailPages/ReservationDetailPage.dart';
 import 'package:flutter/material.dart';
-import 'package:comp202/pages/DetailPages/AnnouncementsDetailPage.dart';
 import 'package:comp202/pages/DetailPages/CampusMapDetailPage.dart';
 import 'package:comp202/pages/DetailPages/EventsDetailPage.dart';
 import 'package:comp202/pages/DetailPages/LunchDetailPage.dart';
@@ -45,10 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
       icon: const Icon(Icons.event, color: Colors.white),
     ),
     Exercises(
-      title: 'Announcements',
+      title: 'Reservation',
       subtitle: '16 Exercises',
       color: Colors.pink[400]!,
-      icon: const Icon(Icons.announcement, color: Colors.white),
+      icon: const Icon(Icons.access_time_outlined, color: Colors.white),
     ),
     Exercises(
       title: 'Campus Map',
@@ -251,17 +250,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget getDetailPage(String title) {
     switch (title) {
       case "Lunch":
-        return LunchDetailPage(); // Assuming you have a LunchDetailPage widget
+        return LunchDetailPage();
       case "Events":
-        return EventsDetailPage(); // Assuming you have an EventsDetailPage widget
-      case "Announcements":
-        return AnnouncementsDetailPage(); // Assuming you have an AnnouncementsDetailPage widget
+        return EventsDetailPage();
+      case "Reservations":
+        return ReservationDetailPage();
       case "Campus Map":
-        return CampusMapDetailPage(); // Assuming you have a CampusMapDetailPage widget
+        return CampusMapDetailPage();
       case "Reservation":
-        return ReservationDetailPage(); // Assuming you have a ReservationDetailPage widget
+        return ReservationDetailPage();
       default:
-        return Container(); // Default case, you can change it accordingly
+        return Container();
     }
   }
 }

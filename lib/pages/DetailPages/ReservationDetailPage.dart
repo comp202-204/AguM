@@ -40,10 +40,10 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-            'Make a Reservation',
-             style: TextStyle(color: Colors.black),
-      ),
-        backgroundColor: Colors.black.withOpacity(0.5), // App bar rengi
+          'Make a Reservation',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black12.withOpacity(0.81),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -96,9 +96,9 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                         ),
                         SizedBox(height: 20.0),
                         selectedDate == null
-                            ? Container(height: 18.0) // Sabit yükseklik ekleyin
+                            ? Container(height: 18.0)
                             : SizedBox(
-                          height: 24.0, // Sabit yükseklik ekleyin
+                          height: 24.0,
                           child: Text(
                             'Selected Date: ${selectedDate.toString().split(' ')[0]}',
                             style: TextStyle(fontSize: 18.0, color: Colors.white),
@@ -124,7 +124,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                           onPressed: () => _selectTime(context),
                           child: Text('Select Time', style: TextStyle(fontSize: 18.0, color: Colors.white)),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromRGBO(174, 32, 41, 1), // Buton rengi
+                            backgroundColor: Color.fromRGBO(174, 32, 41, 1),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -132,9 +132,9 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                         ),
                         SizedBox(height: 20.0),
                         selectedTime == null
-                            ? Container(height: 18.0) // Sabit yükseklik ekleyin
+                            ? Container(height: 18.0)
                             : SizedBox(
-                          height: 24.0, // Sabit yükseklik ekleyin
+                          height: 24.0,
                           child: Text(
                             'Selected Time: ${selectedTime!.format(context)}',
                             style: TextStyle(fontSize: 18.0, color: Colors.white),
@@ -150,7 +150,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        // Rezervasyon işlemleri burada yapılabilir
+
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
