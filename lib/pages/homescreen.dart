@@ -1,10 +1,12 @@
+import 'package:comp202/pages/DetailPages/ReservationDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:comp202/pages/DetailPages/AnnouncementsDetailPage.dart';
 import 'package:comp202/pages/DetailPages/CampusMapDetailPage.dart';
 import 'package:comp202/pages/DetailPages/EventsDetailPage.dart';
 import 'package:comp202/pages/DetailPages/LunchDetailPage.dart';
-import 'package:comp202/pages/Models/exercise.dart';
 import 'package:comp202/pages/settingspage.dart';
+
+import 'Models/exercise.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,25 +36,31 @@ class _HomeScreenState extends State<HomeScreen> {
       title: 'Lunch',
       subtitle: '16 Exercises',
       color: Colors.orange[800]!,
-      icon: const Icon(Icons.restaurant,color: Colors.white),
+      icon: const Icon(Icons.restaurant, color: Colors.white),
     ),
     Exercises(
       title: 'Events',
       subtitle: '16 Exercises',
       color: Colors.blue[500]!,
-      icon: const Icon(Icons.event,color: Colors.white),
+      icon: const Icon(Icons.event, color: Colors.white),
     ),
     Exercises(
       title: 'Announcements',
       subtitle: '16 Exercises',
       color: Colors.pink[400]!,
-      icon: const Icon(Icons.announcement,color: Colors.white),
+      icon: const Icon(Icons.announcement, color: Colors.white),
     ),
     Exercises(
       title: 'Campus Map',
       subtitle: '16 Exercises',
       color: Colors.green[300]!,
-      icon: const Icon(Icons.map_outlined,color: Colors.white),
+      icon: const Icon(Icons.map_outlined, color: Colors.white),
+    ),
+    Exercises(
+      title: 'Reservation',
+      subtitle: '10 Exercises',
+      color: Colors.deepPurple[400]!,
+      icon: const Icon(Icons.assignment, color: Colors.white),
     ),
   ];
 
@@ -140,8 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           border: InputBorder.none,
                           hintText: 'Search',
-                          hintStyle:
-                          TextStyle(color: Colors.white, fontSize: 12),
+                          hintStyle: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ),
                     ),
@@ -159,12 +166,12 @@ class _HomeScreenState extends State<HomeScreen> {
         showUnselectedLabels: false,
         backgroundColor: Color.fromRGBO(207, 226, 243, 1),
         elevation: 0,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-          ],
-          selectedIconTheme: IconThemeData(color: Colors.grey), // Seçilen icon rengi
-          unselectedIconTheme: IconThemeData(color: Colors.grey), // Seçilmeyen icon rengi
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+        ],
+        selectedIconTheme: IconThemeData(color: Colors.grey), // Seçilen icon rengi
+        unselectedIconTheme: IconThemeData(color: Colors.grey), // Seçilmeyen icon rengi
         onTap: (index) {
           if (index == 0) {
             Navigator.pushReplacement(
@@ -251,6 +258,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return AnnouncementsDetailPage(); // Assuming you have an AnnouncementsDetailPage widget
       case "Campus Map":
         return CampusMapDetailPage(); // Assuming you have a CampusMapDetailPage widget
+      case "Reservation":
+        return ReservationDetailPage(); // Assuming you have a ReservationDetailPage widget
       default:
         return Container(); // Default case, you can change it accordingly
     }
@@ -277,8 +286,7 @@ class ExercisesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child:
-      Container(
+      child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
