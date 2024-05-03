@@ -4,8 +4,45 @@ import 'package:flutter/material.dart';
 
 
 class LabDetailPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
+    List<ListTile> labClasses = [
+      ListTile(
+        title: Text('LB207'),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FirstLabDetailPage(),
+            ),
+          );
+        },
+      ),
+      ListTile(
+        title: Text('LB209'),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SecondLabDetailPage(),
+            ),
+          );
+        },
+      ),
+      ListTile(
+        title: Text('LB210'),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ThirdLabDetailPage(),
+            ),
+          );
+        },
+      ),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text('Lab Building'),
@@ -13,7 +50,7 @@ class LabDetailPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView(
+            child: ListView( //Bu kısım indexlenip listeden çekilecek
               children: [
                 ListTile(
                   title: Text('LB207'),
@@ -73,7 +110,7 @@ class _FirstLabDetailPageState extends State<FirstLabDetailPage> {
   }
 
   Future<void> loadComments() async {
-    final response = await http.get(Uri.parse('http://10.33.7.79/localconnect/get_comments.php'));
+    final response = await http.get(Uri.parse('http://192.168.56.1/localconnect/get_comments.php'));
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
       setState(() {

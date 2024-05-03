@@ -36,7 +36,7 @@ class _CampusMapDetailPageState extends State<CampusMapDetailPage> {
 
   Future<List<Building>> fetchBuildings() async {
     final response =
-    await http.get(Uri.parse('http://10.33.7.79/localconnect/buildings.php'));
+    await http.get(Uri.parse('http://192.168.56.1/localconnect/buildings.php'));
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((json) =>
