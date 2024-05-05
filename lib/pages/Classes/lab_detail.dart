@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 
 
 class LabDetailPage extends StatelessWidget {
+  final bool avalable = true;
 
   @override
   Widget build(BuildContext context) {
 
     List<ListTile> labClasses = [
       ListTile(
-        title: Text('LB207'),
+        title: Text(''),
         onTap: () {
           Navigator.push(
             context,
@@ -203,6 +204,7 @@ class Comment {
 }
 
 class SecondLabDetailPage extends StatelessWidget {
+  final bool avalable = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -217,6 +219,7 @@ class SecondLabDetailPage extends StatelessWidget {
 }
 
 class ThirdLabDetailPage extends StatelessWidget {
+  final bool avalable = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
