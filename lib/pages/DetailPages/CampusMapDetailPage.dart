@@ -12,13 +12,13 @@
     final String name;
     final String imageURL;
     final String type;
-    final int classCount; // Add class count here
+    final List<String> classNames;
 
     Building({
       required this.name,
       required this.imageURL,
       required this.type,
-      required this.classCount,
+      required this.classNames,
     });
 
     factory Building.fromJson(Map<String, dynamic> json) {
@@ -26,7 +26,7 @@
         name: json['name'] ?? '',
         imageURL: json['imageURL'] ?? '',
         type: json['type'] ?? '',
-        classCount: json['classCount'] as int? ?? 0, // Handle the class count
+        classNames: List<String>.from(json['classNames'] ?? []),
       );
     }
   }
@@ -100,7 +100,12 @@
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => PageManager(classCount: building.classCount)),
+                        MaterialPageRoute(
+                          builder: (context) => PageManager(
+                            buildName: building.name,
+                            classNames: building.classNames, // Pass the actual classNames from the building
+                          ),
+                        ),
                       );
                     },
                   );
@@ -117,21 +122,23 @@
     }
   }
   class PageManager extends StatelessWidget {
-    final int classCount;
+    final List<String> classNames;
+    final String buildName;
 
-    PageManager({required this.classCount});
+
+    PageManager({required this.classNames, required this.buildName});
 
     @override
     Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Page Manager'),
+          title: Text('All Classes of $buildName'),
         ),
         body: ListView.builder(
-          itemCount: classCount,
+          itemCount: classNames.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text('Page ${index + 1}'),
+              title: Text(classNames[index]),
               onTap: () {
                 Navigator.push(
                   context,
@@ -145,19 +152,49 @@
     }
   }
 
-  class DynamicPage extends StatelessWidget {
+  //CommentDetails-ReservationDetail-ClassesDetail these are common for all classes
+  // and these will come from database
+  class DynamicPage extends StatefulWidget {
     final int pageNumber;
 
     DynamicPage({required this.pageNumber});
 
     @override
+    _DynamicPageState createState() => _DynamicPageState();
+  }
+
+  class _DynamicPageState extends State<DynamicPage> {
+    String className = "Loading...";  // Initial text to display
+
+    @override
+    void initState() {
+      super.initState();
+      fetchClassName();
+    }
+
+    Future<void> fetchClassName() async {
+      final response = await http.get(Uri.parse('http://192.168.56.1/localconnect/DynamicPageClassNames.php?classId=${widget.pageNumber}'));
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        setState(() {
+          className = data['class_name'] ?? "No name found";
+        });
+      } else {
+        setState(() {
+          className = "Failed to load class name";
+        });
+      }
+    }
+
+    @override
     Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Page $pageNumber'),
+          title: Text('Page ${widget.pageNumber}'),
         ),
         body: Center(
-          child: Text('Welcome, this is Page $pageNumber', style: TextStyle(fontSize: 24)),
+          child: Text(className, style: TextStyle(fontSize: 24)),
         ),
       );
     }
