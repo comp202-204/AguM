@@ -154,7 +154,7 @@ class PageManager extends StatelessWidget {
                   builder: (context) => DynamicPage(
                     buildingId: buildingId,
                     classId: index + 1,
-                    className: classNames[index], // Pass the class name to the DynamicPage
+                    className: classNames[index],
                   ),
                 ),
               );
@@ -182,8 +182,8 @@ class DynamicPage extends StatefulWidget {
 }
 
 class _DynamicPageState extends State<DynamicPage> {
-  List<Comment> comments = []; // List to store comments
-  String newComment = ""; // Variable to store new comment
+  List<Comment> comments = [];
+  String newComment = "";
   TextEditingController commentController = TextEditingController();
 
   @override
