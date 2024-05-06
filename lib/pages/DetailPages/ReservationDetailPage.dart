@@ -32,7 +32,7 @@
 
         try {
           var response = await http.get(
-              Uri.parse('http://192.168.56.1/localconnect/getAvailableClasses.php?date=$formattedDate&time=$formattedTime')
+              Uri.parse('http://10.34.15.110/localconnect/getAvailableClasses.php?date=$formattedDate&time=$formattedTime')
           );
 
           if (response.statusCode == 200) {

@@ -44,12 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
       icon: const Icon(Icons.event, color: Colors.white),
     ),
     Exercises(
-      title: 'Reservation',
-      subtitle: '16 Exercises',
-      color: Colors.pink[400]!,
-      icon: const Icon(Icons.access_time_outlined, color: Colors.white),
-    ),
-    Exercises(
       title: 'Campus Map',
       subtitle: '16 Exercises',
       color: Colors.green[300]!,
@@ -253,12 +247,10 @@ class _HomeScreenState extends State<HomeScreen> {
         return LunchDetailPage();
       case "Events":
         return EventsDetailPage();
-      case "Reservations":
+      case "Reservation":
         return ReservationDetailPage();
       case "Campus Map":
         return CampusMapDetailPage();
-      case "Reservation":
-        return ReservationDetailPage();
       default:
         return Container();
     }
