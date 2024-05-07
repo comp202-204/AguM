@@ -9,7 +9,7 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/login': (context) => LoginScreen(),
             '/signup': (context) => SignUpScreen(),
-            '/home': (context) => HomeScreen(),
+            '/home': (context) => const HomeScreen(),
             '/settings': (context) => SettingsPage(),
           },
         );

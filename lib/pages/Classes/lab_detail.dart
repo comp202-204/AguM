@@ -111,7 +111,7 @@ class _FirstLabDetailPageState extends State<FirstLabDetailPage> {
   }
 
   Future<void> loadComments() async {
-    final response = await http.get(Uri.parse('http://10.34.15.110/localconnect/get_comments.php'));
+    final response = await http.get(Uri.parse('http://10.34.19.96/localconnect/get_comments.php'));
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
       setState(() {
@@ -124,7 +124,7 @@ class _FirstLabDetailPageState extends State<FirstLabDetailPage> {
 
   Future<void> addComment(String text) async {
     final response = await http.post(
-      Uri.parse('http://10.34.15.110/localconnect/add_comments.php'),
+      Uri.parse('http://192.168.1.107/localconnect/add_comments.php'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
