@@ -53,7 +53,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching data: $e')),
+        SnackBar(content: Text('No Available Classes')),
       );
     } finally {
       setState(() {
@@ -66,11 +66,24 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime ?? TimeOfDay.now(),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
     );
     if (picked != null && picked != selectedTime) {
-      setState(() {
-        selectedTime = picked;
-      });
+      // Check if the selected time is a full hour (minute is 0)
+      if (picked.minute == 0) {
+        setState(() {
+          selectedTime = picked;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please select a full hour (e.g., 12:00, 13:00, etc.)')),
+        );
+      }
     }
   }
 
