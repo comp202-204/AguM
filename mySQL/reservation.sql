@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Anamakine: 127.0.0.1
--- Üretim Zamanı: 05 May 2024, 14:08:10
--- Sunucu sürümü: 10.4.32-MariaDB
--- PHP Sürümü: 8.2.12
+-- Anamakine: localhost
+-- Üretim Zamanı: 08 May 2024, 13:37:56
+-- Sunucu sürümü: 10.4.28-MariaDB
+-- PHP Sürümü: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,23 +33,24 @@ CREATE TABLE `reservation` (
   `classes_id` int(60) NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
-  `class_name` varchar(50) NOT NULL
+  `class_name` varchar(50) NOT NULL,
+  `class_status` enum('NotAvailable','Available') NOT NULL DEFAULT 'Available'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Tablo döküm verisi `reservation`
 --
 
-INSERT INTO `reservation` (`id`, `building_id`, `classes_id`, `date`, `time`, `class_name`) VALUES
-(1, 1, 1, '2024-05-03', '12:00:00', 'LB207'),
-(2, 1, 1, '2024-05-03', '13:00:00', 'LB207'),
-(3, 1, 1, '2024-05-03', '14:00:00', 'LB207'),
-(4, 1, 2, '2024-05-03', '13:00:00', 'LB209'),
-(5, 1, 2, '2024-05-03', '14:00:00', 'LB209'),
-(6, 1, 2, '2024-05-03', '15:00:00', 'LB209'),
-(7, 1, 3, '2024-05-03', '12:00:00', 'LB210'),
-(8, 1, 3, '2024-05-03', '13:00:00', 'LB210'),
-(9, 1, 3, '2024-05-03', '15:00:00', 'LB210');
+INSERT INTO `reservation` (`id`, `building_id`, `classes_id`, `date`, `time`, `class_name`, `class_status`) VALUES
+(1, 1, 1, '2024-05-03', '12:00:00', 'LB207', 'NotAvailable'),
+(2, 1, 1, '2024-05-03', '13:00:00', 'LB207', 'Available'),
+(3, 1, 1, '2024-05-03', '14:00:00', 'LB207', 'Available'),
+(4, 1, 2, '2024-05-03', '13:00:00', 'LB209', 'Available'),
+(5, 1, 2, '2024-05-03', '14:00:00', 'LB209', 'Available'),
+(6, 1, 2, '2024-05-03', '15:00:00', 'LB209', 'Available'),
+(7, 1, 3, '2024-05-03', '12:00:00', 'LB210', 'Available'),
+(8, 1, 3, '2024-05-03', '13:00:00', 'LB210', 'Available'),
+(9, 1, 3, '2024-05-03', '15:00:00', 'LB210', 'Available');
 
 --
 -- Dökümü yapılmış tablolar için indeksler

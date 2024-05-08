@@ -135,7 +135,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/photos/rezervation.jpg'),
+            image: AssetImage('assets/photos/reservation.jpg'),
             fit: BoxFit.cover,
           ),
         ),
