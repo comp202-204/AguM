@@ -1,59 +1,36 @@
 <?php
-
-// Database configuration settings
+// Veritabanı bağlantısı
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "localconnect";
+$database = "localconnect"; // Veritabanı adı
 
-// Create a new MySQLi connection
+// Bağlantı oluşturma
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Check the connection
+// Bağlantıyı kontrol etme
 if ($conn->connect_error) {
-    http_response_code(500);
-    echo json_encode(['error' => "Connection failed: " . $conn->connect_error]);
-    exit();  // Terminate the script if the database connection fails
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Retrieve `date` and `time` from the GET request
-$date = isset($_GET['date']) ? $_GET['date'] : null;
-$time = isset($_GET['time']) ? $_GET['time'] : null;
+// GET parametrelerini al
+$date = $_GET["date"];
+$time = $_GET["time"];
 
-$response = [];
+// Sorgu hazırlama
+$sql = "SELECT class_name FROM reservation WHERE `date` = '$date' AND `time` = '$time' AND `class_status` = 'Available'";
+$result = $conn->query($sql);
 
-// Validate that both date and time have been provided
-if ($date && $time) {
-    // Prepare SQL statement to prevent SQL injection
-    $stmt = $conn->prepare("SELECT id, building_id, classes_id, class_name FROM reservation WHERE date = ? AND time = ?");
-    $stmt->bind_param("ss", $date, $time);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        // Fetch all matching records and populate the response array
-        while ($row = $result->fetch_assoc()) {
-            $response[] = [
-                'id' => $row['id'],
-                'building_id' => $row['building_id'],
-                'classes_id' => $row['classes_id'],
-                'class_name' => $row['class_name']
-            ];
-        }
-    } else {
-        // Set HTTP response code to 404 if no entries are found
-        http_response_code(404);
-        $response = ['message' => 'No classes available'];
+// Sorgu sonuçlarını işleme
+$classes = array();
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $classes[] = $row["class_name"];
     }
-
-    $stmt->close();
+    echo json_encode($classes);
 } else {
-    // Set HTTP response code to 400 for bad request
-    http_response_code(400);
-    $response = ['error' => 'Both date and time are required'];
+    echo "No available classes";
 }
-
 $conn->close();
-
-echo json_encode($response);
 ?>
+

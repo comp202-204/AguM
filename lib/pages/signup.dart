@@ -22,7 +22,7 @@ class SignUpScreen extends StatelessWidget {
       );
     }else{
 
-      var url = "http://10.34.19.96/localconnect/register.php";
+      var url = "http://10.34.15.110/localconnect/register.php";
       var response = await http.post(Uri.parse(url), body: {
         "username" : usernameController.text,
         "email": emailController.text,
