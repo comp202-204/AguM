@@ -322,7 +322,17 @@ class _DynamicPageState extends State<DynamicPage> {
                     padding: const EdgeInsets.all(20),
                     child: GestureDetector(
                       onTap: () {
-                        // Navigate to ReservationPage
+                        // Navigate to a new page to show reservation details
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DynamicPageofReservation(
+                              buildingId: widget.buildingId,
+                              classId: widget.classId,
+                              className: widget.className, // Pass the class name here
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(12),
@@ -508,6 +518,111 @@ class Comment {
     return Comment(
       text: json['text'] ?? '',
       timestamp: DateTime.parse(json['timestamp'] ?? ''),
+    );
+  }
+}
+
+class ReservedTimesDetailPage extends StatelessWidget {
+  final String selectedClass;
+  final String classStatus;
+
+  ReservedTimesDetailPage({
+    Key? key,
+    required this.selectedClass,
+    required this.classStatus, // Add classStatus parameter
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Reserved Times for $selectedClass',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              // Filter and display reserved times based on classStatus
+              if (classStatus == 'NotAvailable')
+                Text(
+                  'No available times',
+                  style: TextStyle(fontSize: 18),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DynamicPageofReservation extends StatefulWidget {
+  final int buildingId;
+  final int classId;
+  final String className;
+
+  DynamicPageofReservation({
+    required this.buildingId,
+    required this.classId,
+    required this.className,
+  });
+
+  @override
+  _DynamicPageofReservationState createState() => _DynamicPageofReservationState();
+}
+
+class _DynamicPageofReservationState extends State<DynamicPageofReservation> {
+  late Future<List<Map<String, dynamic>>> getUnavailableClassData;
+
+  @override
+  void initState() {
+    super.initState();
+    getUnavailableClassData = fetchUnavailableClassData();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchUnavailableClassData() async {
+    final response = await http.get(Uri.parse('http://10.34.15.110/localconnect/GetClassStatus.php?classId=${widget.classId}'));
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return List<Map<String, dynamic>>.from(data);
+    } else {
+      throw Exception('Failed to load unavailable class data');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.className} - Class ${widget.classId}'),
+      ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: getUnavailableClassData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error.toString()}'));
+          } else if (snapshot.hasData && snapshot.data != null && snapshot.data!.isNotEmpty) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final unavailableData = snapshot.data![index];
+                final time = unavailableData['time'];
+                final className = unavailableData['class_name'];
+                return ListTile(
+                  title: Text('Time: $time - Class: $className'),
+                );
+              },
+            );
+          } else {
+            return Center(child: Text('No unavailable class data available'));
+          }
+        },
+      ),
     );
   }
 }
