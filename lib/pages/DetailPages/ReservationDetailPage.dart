@@ -31,7 +31,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
 
     try {
       var response = await http.get(
-        Uri.parse('http://10.34.15.110/localconnect/getAvailableClasses.php?date=$formattedDate&time=$formattedTime'),
+        Uri.parse('http://172.20.10.2/localconnect/getAvailableClasses.php?date=$formattedDate&time=$formattedTime'),
       );
 
       if (response.statusCode == 200) {
@@ -108,7 +108,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
         final formattedTime = "${selectedTime!.hour}:${selectedTime!.minute}";
 
         var response = await http.put(
-          Uri.parse('http://10.34.15.110/localconnect/updateClassStatus.php'),
+          Uri.parse('http://172.20.10.2/localconnect/updateClassStatus.php'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode({'class_name': selectedClassName, 'class_status': 'NotAvailable', 'date': formattedDate, 'time': formattedTime}),
         );

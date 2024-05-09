@@ -49,7 +49,7 @@ class _CampusMapDetailPageState extends State<CampusMapDetailPage> {
   }
 
   Future<List<Building>> fetchBuildings() async {
-    final response = await http.get(Uri.parse('http://10.34.15.110/localconnect/classNumber_BuildingsInfo.php'));
+    final response = await http.get(Uri.parse('http://172.20.10.2/localconnect/classNumber_BuildingsInfo.php'));
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((json) => Building.fromJson(json)).toList();
@@ -423,7 +423,7 @@ class _CommentPageState extends State<CommentPage> {
 
   Future<void> getComments() async {
     print('Fetching comments for Class ID: ${widget.classId}');
-    final response = await http.get(Uri.parse('http://10.34.15.110/localconnect/GetComments.php?buildingId=${widget.buildingId}&classId=${widget.classId}'));
+    final response = await http.get(Uri.parse('http://172.20.10.2/localconnect/GetComments.php?buildingId=${widget.buildingId}&classId=${widget.classId}'));
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -439,7 +439,7 @@ class _CommentPageState extends State<CommentPage> {
 
   Future<void> addComment(String newComment) async {
     final response = await http.post(
-      Uri.parse('http://10.34.15.110/localconnect/AddComment.php'),
+      Uri.parse('http://172.20.10.2/localconnect/AddComment.php'),
       body: {
         'buildingId': widget.buildingId.toString(),
         'classId': widget.classId.toString(),
@@ -584,7 +584,7 @@ class _DynamicPageofReservationState extends State<DynamicPageofReservation> {
   }
 
   Future<List<Map<String, dynamic>>> fetchUnavailableClassData() async {
-    final response = await http.get(Uri.parse('http://10.34.15.110/localconnect/GetClassStatus.php?classId=${widget.classId}'));
+    final response = await http.get(Uri.parse('http://172.20.10.2/localconnect/GetClassStatus.php?classId=${widget.classId}'));
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return List<Map<String, dynamic>>.from(data);
