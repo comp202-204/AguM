@@ -7,8 +7,9 @@ class LunchDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Lunch Detail'),
       ),
-      body: Center(
-        child: Text('Lunch Detail Page'),
+      body: Image.asset(
+        'assets/photos/yemekListesi.png',
+        fit: BoxFit.cover,
       ),
     );
   }

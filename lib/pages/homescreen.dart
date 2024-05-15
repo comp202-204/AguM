@@ -33,25 +33,21 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Exercises> exerciseList = [
     Exercises(
       title: 'Lunch',
-      subtitle: '16 Exercises',
       color: Colors.orange[800]!,
       icon: const Icon(Icons.restaurant, color: Colors.white),
     ),
     Exercises(
       title: 'Events',
-      subtitle: '16 Exercises',
       color: Colors.blue[500]!,
       icon: const Icon(Icons.event, color: Colors.white),
     ),
     Exercises(
       title: 'Campus Map',
-      subtitle: '16 Exercises',
       color: Colors.green[300]!,
       icon: const Icon(Icons.map_outlined, color: Colors.white),
     ),
     Exercises(
       title: 'Reservation',
-      subtitle: '10 Exercises',
       color: Colors.deepPurple[400]!,
       icon: const Icon(Icons.assignment, color: Colors.white),
     ),
@@ -104,49 +100,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               dateText,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 11,
+                                fontSize: 14,
                               ),
                             ),
                           ],
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.blueGrey.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.notifications,
-                            ),
-                          ),
-                        )
                       ],
                     ),
-
-                    const SizedBox(height: 18),
-
-                    // Search bar
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blueGrey.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.search_outlined,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          border: InputBorder.none,
-                          hintText: 'Search',
-                          hintStyle: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
                   ],
                 ),
               )
@@ -218,7 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: ExercisesCard(
                               icon: e.icon,
                               title: e.title,
-                              subtitle: e.subtitle,
                               color: e.color,
                               onTap: () {
                                 Navigator.push(
@@ -261,14 +220,12 @@ class ExercisesCard extends StatelessWidget {
   final Icon icon;
   final Color color;
   final String title;
-  final String subtitle;
   final VoidCallback onTap;
 
   const ExercisesCard({
     Key? key,
     required this.icon,
     required this.title,
-    required this.subtitle,
     required this.color,
     required this.onTap,
   }) : super(key: key);
@@ -278,6 +235,7 @@ class ExercisesCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 1),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -297,29 +255,19 @@ class ExercisesCard extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 5),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 18,
                     ),
-                    Text(
-                      subtitle,
-                      style: TextStyle(color: Colors.grey[400], fontSize: 12),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           ],
@@ -328,7 +276,6 @@ class ExercisesCard extends StatelessWidget {
     );
   }
 }
-
 class Title extends StatelessWidget {
   final String title;
   final Color? color;
@@ -340,7 +287,7 @@ class Title extends StatelessWidget {
     required this.title,
     required this.onPressed,
     this.color = Colors.white,
-    this.titleFontSize = 16,
+    this.titleFontSize = 18,
   }) : super(key: key);
 
   @override
@@ -356,10 +303,6 @@ class Title extends StatelessWidget {
             fontSize: titleFontSize,
           ),
         ),
-        InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: onPressed,
-            child: Icon(Icons.more_horiz, color: color, size: 20)),
       ],
     );
   }
