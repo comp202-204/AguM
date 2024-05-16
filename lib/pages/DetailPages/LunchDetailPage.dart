@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
-class LunchDetailPage extends StatelessWidget {
+class RunMyApp extends StatelessWidget {
+  const RunMyApp({
+    super.key
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Lunch Detail'),
-      ),
-      body: Image.asset(
-        'assets/photos/yemekListesi.png',
-        fit: BoxFit.cover,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.green),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Monthly Lunch'),
+        ),
+        body: Container(
+            child: PhotoView(
+              imageProvider: AssetImage("assets/photos/yemekListesi.png"),
+            )
+        ),
       ),
     );
   }
 }
-

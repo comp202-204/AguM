@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
       );
     }else{
 
-      var url =  "http://192.168.1.107/localconnect/login.php";
+      var url =  "http://192.168.56.1/localconnect/login.php";
       var response = await http.post(Uri.parse(url), body: {
         "email": email.text,
         "password": password.text,

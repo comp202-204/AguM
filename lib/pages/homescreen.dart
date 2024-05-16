@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget getDetailPage(String title) {
     switch (title) {
       case "Lunch":
-        return LunchDetailPage();
+        return RunMyApp();
       case "Events":
         return EventsDetailPage();
       case "Reservation":
