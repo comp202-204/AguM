@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case "Lunch":
         return RunMyApp();
       case "Events":
-        return EventsDetailPage();
+        return EventCreatorApp();
       case "Reservation":
         return ReservationDetailPage();
       case "Campus Map":

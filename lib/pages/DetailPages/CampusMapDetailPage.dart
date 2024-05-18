@@ -413,7 +413,7 @@ class _CommentPageState extends State<CommentPage> {
 
   Future<void> getComments() async {
     print('Fetching comments for Class ID: ${widget.classId}');
-    final response = await http.get(Uri.parse('http://10.34.15.110/localconnect/GetComments.php?buildingId=${widget.buildingId}&classId=${widget.classId}'));
+    final response = await http.get(Uri.parse('http://192.168.56.1/localconnect/GetComments.php?buildingId=${widget.buildingId}&classId=${widget.classId}'));
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -429,7 +429,7 @@ class _CommentPageState extends State<CommentPage> {
 
   Future<void> addComment(String newComment) async {
     final response = await http.post(
-      Uri.parse('http://10.34.15.110/localconnect/AddComment.php'),
+      Uri.parse('http://192.168.56.1/localconnect/AddComment.php'),
       body: {
         'buildingId': widget.buildingId.toString(),
         'classId': widget.classId.toString(),

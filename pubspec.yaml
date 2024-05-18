@@ -30,11 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   http: ^1.2.0
+  datetime_picker_formfield: ^2.0.0
+  intl: ^0.17.0
   fluttertoast: ^8.2.4
   flutter_bloc: ^8.1.4
-  excel: ^2.0.0
   path_provider: ^2.0.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
