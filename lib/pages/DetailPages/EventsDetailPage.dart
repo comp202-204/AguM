@@ -1,3 +1,4 @@
+import 'package:comp202/pages/homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -24,8 +25,8 @@ class EventControllerPage extends StatefulWidget {
 }
 
 class _EventControllerPageState extends State<EventControllerPage> {
-  final String createEventUrl = 'http://192.168.56.1/localconnect/create_event.php';
-  final String getEventsUrl = 'http://192.168.56.1/localconnect/get_events.php';
+  final String createEventUrl = 'http://10.32.1.15/localconnect/create_event.php';
+  final String getEventsUrl = 'http://10.32.1.15/localconnect/get_events.php';
 
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -94,6 +95,16 @@ class _EventControllerPageState extends State<EventControllerPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Controller'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+                  (route) => false,
+            );
+          },
+        ),
       ),
       body: Row(
         children: [

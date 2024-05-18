@@ -4,7 +4,6 @@ import 'package:comp202/pages/DetailPages/CampusMapDetailPage.dart';
 import 'package:comp202/pages/DetailPages/EventsDetailPage.dart';
 import 'package:comp202/pages/DetailPages/LunchDetailPage.dart';
 import 'package:comp202/pages/settingspage.dart';
-
 import 'Models/exercise.dart';
 
 class HomeScreen extends StatefulWidget {
