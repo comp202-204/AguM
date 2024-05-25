@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 08 May 2024, 13:37:56
+-- Üretim Zamanı: 25 May 2024, 13:02:38
 -- Sunucu sürümü: 10.4.28-MariaDB
 -- PHP Sürümü: 8.2.4
 
@@ -42,15 +42,15 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id`, `building_id`, `classes_id`, `date`, `time`, `class_name`, `class_status`) VALUES
-(1, 1, 1, '2024-05-03', '12:00:00', 'LB207', 'NotAvailable'),
-(2, 1, 1, '2024-05-03', '13:00:00', 'LB207', 'Available'),
-(3, 1, 1, '2024-05-03', '14:00:00', 'LB207', 'Available'),
-(4, 1, 2, '2024-05-03', '13:00:00', 'LB209', 'Available'),
-(5, 1, 2, '2024-05-03', '14:00:00', 'LB209', 'Available'),
-(6, 1, 2, '2024-05-03', '15:00:00', 'LB209', 'Available'),
-(7, 1, 3, '2024-05-03', '12:00:00', 'LB210', 'Available'),
-(8, 1, 3, '2024-05-03', '13:00:00', 'LB210', 'Available'),
-(9, 1, 3, '2024-05-03', '15:00:00', 'LB210', 'Available');
+(1, 1, 1, '2024-05-12', '12:00:00', 'LB207', 'NotAvailable'),
+(2, 1, 1, '2024-05-12', '13:00:00', 'LB207', 'Available'),
+(3, 1, 1, '2024-05-12', '14:00:00', 'LB207', 'Available'),
+(4, 1, 2, '2024-05-12', '13:00:00', 'LB209', 'Available'),
+(5, 1, 2, '2024-05-12', '14:00:00', 'LB209', 'Available'),
+(6, 1, 2, '2024-05-12', '15:00:00', 'LB209', 'Available'),
+(7, 1, 3, '2024-05-12', '12:00:00', 'LB210', 'Available'),
+(8, 1, 3, '2024-05-12', '13:00:00', 'LB210', 'Available'),
+(9, 1, 3, '2024-05-12', '15:00:00', 'LB210', 'Available');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
