@@ -1,49 +1,39 @@
 <?php
-// Veritabanı bağlantı bilgileri
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "localconnect";
+$dbname = "localconnect";
 
-// Veritabanı bağlantısını oluştur
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Bağlantıyı kontrol et
 if ($conn->connect_error) {
-    die("Veritabanı bağlantısı başarısız: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// GET isteğinden gelen parametreleri al
 $date = $_GET['date'];
 $start_time = $_GET['start_time'];
 $end_time = $_GET['end_time'];
 
-// Sorguyu hazırla
-$sql = "SELECT `date`, `start_time`, `end_time`, `class_name` FROM `reservation` WHERE `date` = ? AND `start_time` >= ? AND `end_time` <= ? AND `class_status` = 'Available'";
-
-// Hazırlanan ifadeyi başlat
+$sql = "SELECT class_name FROM reservation
+        WHERE date = ? AND class_status = 'Available'
+        AND (
+            (start_time <= ? AND end_time > ?) OR
+            (start_time < ? AND end_time >= ?) OR
+            (start_time >= ? AND end_time <= ?)
+        )";
 $stmt = $conn->prepare($sql);
-
-// Parametreleri bağla
-$stmt->bind_param("sss", $date, $start_time, $end_time);
-
-// Sorguyu çalıştır
+$stmt->bind_param("sssssss", $date, $start_time, $start_time, $end_time, $end_time, $start_time, $end_time);
 $stmt->execute();
-
-// Sonuçları al
 $result = $stmt->get_result();
 
-// Sonuçları bir diziye dönüştür
-$data = array();
+$classes = [];
 while ($row = $result->fetch_assoc()) {
-    $data[] = $row;
+    $classes[] = $row['class_name'];
 }
 
-// JSON formatına dönüştür ve yazdır
-header('Content-Type: application/json');
-echo json_encode($data);
+echo json_encode($classes);
 
-// Bağlantıyı kapat
 $stmt->close();
 $conn->close();
 ?>
+

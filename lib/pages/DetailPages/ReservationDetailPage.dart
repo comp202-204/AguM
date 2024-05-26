@@ -2,6 +2,23 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Reservation Detail Page',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: ReservationDetailPage(),
+    );
+  }
+}
+
 class ReservationDetailPage extends StatefulWidget {
   @override
   _ReservationDetailPageState createState() => _ReservationDetailPageState();
@@ -12,8 +29,8 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
   TimeOfDay? startTime;
   TimeOfDay? endTime;
   List<String> availableClasses = [];
+  List<String> selectedClasses = [];
   bool isLoading = false;
-  String? selectedClassName;
 
   Future<void> _fetchAvailableClasses() async {
     if (selectedDate == null || startTime == null || endTime == null) {
@@ -38,20 +55,11 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
-        availableClasses = List<String>.from(data.map((item) => item.toString()));
+        setState(() {
+          availableClasses = List<String>.from(data.map((item) => item.toString()));
+        });
         if (availableClasses.isEmpty) {
           throw Exception('No available classes');
-        }
-        final selectedClasses = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AvailableClassesPage(availableClasses: availableClasses),
-          ),
-        );
-        if (selectedClasses != null && selectedClasses.isNotEmpty) {
-          setState(() {
-            selectedClassName = selectedClasses.join(', ');
-          });
         }
       } else {
         throw Exception('Failed to load data');
@@ -66,7 +74,6 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
       });
     }
   }
-
 
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -111,9 +118,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
   }
 
   Future<void> _makeReservation() async {
-    if (selectedDate != null &&
-        startTime != null &&
-        endTime != null) {
+    if (selectedDate != null && startTime != null && endTime != null && selectedClasses.isNotEmpty) {
       try {
         final formattedDate =
             "${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}";
@@ -122,43 +127,57 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
         final formattedEndTime =
             "${endTime!.hour.toString().padLeft(2, '0')}:${endTime!.minute.toString().padLeft(2, '0')}:00";
 
-        print('Formatted Date: $formattedDate');
-        print('Formatted Start Time: $formattedStartTime');
-        print('Formatted End Time: $formattedEndTime');
-
         var response = await http.put(
           Uri.parse('http://10.32.1.15/localconnect/updateClassStatus.php'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode({
             'date': formattedDate,
             'start_time': formattedStartTime,
-            'end_time': formattedEndTime
+            'end_time': formattedEndTime,
+            'classes': selectedClasses,
           }),
         );
 
-        print('Response status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
-
         if (response.statusCode == 200) {
-          // Başarılı yanıt durumunda
-          setState(() {});
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Class status updated successfully')),
           );
         } else {
-          // Hatalı yanıt durumunda
           throw Exception('Failed to update class status');
         }
       } catch (e) {
-        // Hata durumunda
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
         );
       }
     } else {
-      // Eksik bilgi durumunda
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select date, start time, and end time first!')),
+        SnackBar(content: Text('Please select date, start time, end time, and at least one class!')),
+      );
+    }
+  }
+
+  Future<void> _navigateToAvailableClassesPage(BuildContext context) async {
+    if (availableClasses.isNotEmpty) {
+      final List<String>? selected = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AvailableClassesPage(
+            availableClasses: availableClasses,
+            selectedDate: selectedDate!,
+            startTime: startTime!,
+            endTime: endTime!,
+          ),
+        ),
+      );
+      if (selected != null && selected.isNotEmpty) {
+        setState(() {
+          selectedClasses = selected;
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No available classes to select!')),
       );
     }
   }
@@ -287,7 +306,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                       ],
                     ),
                   ),
-                  // Class selection button and display selected class
+                  // Class selection button and display selected classes
                   Container(
                     margin: EdgeInsets.only(bottom: 20.0),
                     padding: EdgeInsets.all(10.0),
@@ -302,7 +321,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                           style: TextStyle(fontSize: 20.0, color: Colors.white),
                         ),
                         ElevatedButton(
-                          onPressed: () => _fetchAvailableClasses(),
+                          onPressed: () => _fetchAvailableClasses().then((_) => _navigateToAvailableClassesPage(context)),
                           child: Text('Select Classes', style: TextStyle(fontSize: 18.0, color: Colors.white)),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromRGBO(174, 32, 41, 1),
@@ -313,7 +332,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          selectedClassName == null ? 'No Class Selected' : 'Selected Class: $selectedClassName',
+                          selectedClasses.isEmpty ? 'No Classes Selected' : 'Selected Classes: ${selectedClasses.join(', ')}',
                           style: TextStyle(fontSize: 18.0, color: Colors.white),
                         ),
                       ],
@@ -358,8 +377,17 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
 
 class AvailableClassesPage extends StatefulWidget {
   final List<String> availableClasses;
+  final DateTime selectedDate;
+  final TimeOfDay startTime;
+  final TimeOfDay endTime;
 
-  AvailableClassesPage({Key? key, required this.availableClasses}) : super(key: key);
+  AvailableClassesPage({
+    Key? key,
+    required this.availableClasses,
+    required this.selectedDate,
+    required this.startTime,
+    required this.endTime,
+  }) : super(key: key);
 
   @override
   _AvailableClassesPageState createState() => _AvailableClassesPageState();
@@ -377,6 +405,23 @@ class _AvailableClassesPageState extends State<AvailableClassesPage> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Selected Date: ${widget.selectedDate.toString().split(' ')[0]}',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Selected Time: ${widget.startTime.format(context)} - ${widget.endTime.format(context)}',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: widget.availableClasses.length,
@@ -418,7 +463,7 @@ class _AvailableClassesPageState extends State<AvailableClassesPage> {
                   },
                   child: Text('Confirm Selection'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple.shade100,
+                    backgroundColor: selectedClasses.isEmpty ? Colors.grey : Colors.deepPurple,
                   ),
                 ),
               ],
