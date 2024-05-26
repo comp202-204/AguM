@@ -172,18 +172,23 @@ class _EventControllerPageState extends State<EventControllerPage> {
                     'Recorded Events',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: _events.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(_events[index]['event_name']),
-                          subtitle: Text(_events[index]['description']),
-                          trailing: Text(_events[index]['data_time']),
-                        );
-                      },
-                    ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _events.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(_events[index]['event_name'], style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(_events[index]['description']),
+                            Text(_events[index]['data_time'], style: TextStyle(color: Colors.grey)),
+                          ],
+                        ),
+                      );
+                    },
                   ),
+                )
                 ],
               ),
             ),
