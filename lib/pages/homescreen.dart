@@ -1,4 +1,5 @@
 import 'package:comp202/pages/DetailPages/ReservationDetailPage.dart';
+import 'package:comp202/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:comp202/pages/DetailPages/CampusMapDetailPage.dart';
 import 'package:comp202/pages/DetailPages/EventsDetailPage.dart';
@@ -128,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (index == 0) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
+              MaterialPageRoute(builder: (context) => LoginScreen()),
             );
           } else if (index == 1) {
             Navigator.push(
