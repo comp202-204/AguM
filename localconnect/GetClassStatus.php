@@ -1,5 +1,4 @@
 <?php
-
 // Veritabanı bağlantı bilgileri
 $servername = "localhost";
 $username = "root";
@@ -17,8 +16,8 @@ if ($conn->connect_error) {
 // Get request'ten gelen classId parametresini al
 $classId = $_GET['classId'];
 
-// Sorguyu hazırla
-$sql = "SELECT `date`, `time`, `class_name` FROM `reservation` WHERE `classes_id` = $classId AND `class_status` = 'NotAvailable'";
+// Sorguyu hazırla ve tarih formatını ayarla
+$sql = "SELECT `date`, `start_time`, `end_time`, `class_name` FROM `reservation` WHERE `classes_id` = $classId AND `class_status` = 'NotAvailable'";
 
 // Sorguyu çalıştır ve sonuçları al
 $result = $conn->query($sql);
@@ -37,7 +36,7 @@ if ($result) {
     echo json_encode($data);
 } else {
     // Sorgu başarısız ise hata mesajı yazdır
-    echo "Sorgu başarısız: " . $conn->error;
+    echo json_encode(array('error' => 'Failed to load unavailable class data'));
 }
 
 // Veritabanı bağlantısını kapat

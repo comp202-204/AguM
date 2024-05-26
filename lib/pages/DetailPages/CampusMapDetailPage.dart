@@ -611,12 +611,13 @@ class _DynamicPageofReservationState extends State<DynamicPageofReservation> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final unavailableData = snapshot.data![index];
-                final time = unavailableData['time'];
+                final startTime = unavailableData['start_time'];
+                final endTime = unavailableData['end_time'];
                 final className = unavailableData['class_name'];
-                final reservationDate = unavailableData['date']; // New line
+                final reservationDate = unavailableData['date'];
 
                 return ListTile(
-                  title: Text('Time: $time - Class: $className - Reservation Date: $reservationDate'), // Updated line
+                  title: Text('Time: $startTime - $endTime - Class: $className - Reservation Date: $reservationDate'), // Updated line
                 );
               },
             );
