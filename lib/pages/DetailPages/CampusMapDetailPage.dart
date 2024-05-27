@@ -33,7 +33,6 @@ class Building {
     );
   }
 }
-
 class CampusMapDetailPage extends StatefulWidget {
   @override
   _CampusMapDetailPageState createState() => _CampusMapDetailPageState();
@@ -49,7 +48,7 @@ class _CampusMapDetailPageState extends State<CampusMapDetailPage> {
   }
 
   Future<List<Building>> fetchBuildings() async {
-    final response = await http.get(Uri.parse('http://10.32.10.162/localconnect/classNumber_BuildingsInfo.php'));
+    final response = await http.get(Uri.parse('http://10.31.19.70/localconnect/classNumber_BuildingsInfo.php'));
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((json) => Building.fromJson(json)).toList();
@@ -72,10 +71,18 @@ class _CampusMapDetailPageState extends State<CampusMapDetailPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error.toString()}'));
           } else if (snapshot.hasData && snapshot.data != null) {
+            // Toplam sınıf sayısını hesapla
+            int totalClassCount = snapshot.data!.fold(
+                0, (previousValue, building) => previousValue + building.classNames.length);
+
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 Building building = snapshot.data![index];
+                // Başlangıç sınıf numarasını hesapla
+                int startClassId = index == 0 ? 1 : snapshot.data!.sublist(0, index).fold(
+                    0, (previousValue, building) => previousValue + building.classNames.length) + 1;
+
                 return ListTile(
                   title: Row(
                     children: [
@@ -107,6 +114,8 @@ class _CampusMapDetailPageState extends State<CampusMapDetailPage> {
                           buildingId: building.buildingId,
                           buildName: building.name,
                           classNames: building.classNames,
+                          totalClassCount: totalClassCount,
+                          startClassId: startClassId,
                         ),
                       ),
                     );
@@ -128,14 +137,16 @@ class PageManager extends StatelessWidget {
   final List<String> classNames;
   final String buildName;
   final int buildingId;
+  final int totalClassCount;
+  final int startClassId;
 
   PageManager({
     required this.classNames,
     required this.buildName,
     required this.buildingId,
+    required this.totalClassCount,
+    required this.startClassId,
   });
-
-  static int globalClassId = 1; // Global class ID counter
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +157,7 @@ class PageManager extends StatelessWidget {
       body: ListView.builder(
         itemCount: classNames.length,
         itemBuilder: (context, index) {
-          int classId = globalClassId++;
+          int classId = startClassId + index;
           return ListTile(
             title: Text(classNames[index]),
             onTap: () {
@@ -194,7 +205,7 @@ class _DynamicPageState extends State<DynamicPage> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: 3, // Yorum, Detay ve Rezervasyon için üç öğe
+              itemCount: 2,
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return Padding(
@@ -215,7 +226,7 @@ class _DynamicPageState extends State<DynamicPage> {
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.purple[100] ,
+                          color: Colors.purple[100],
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(width: 1.5, color: Colors.white),
                         ),
@@ -328,6 +339,7 @@ class _DynamicPageState extends State<DynamicPage> {
                     ),
                   );
                 }
+                return null;
               },
             ),
           ),
@@ -364,7 +376,7 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   Future<void> getComments() async {
-    final response = await http.get(Uri.parse('http://10.32.10.162/localconnect/GetComments.php?buildingId=${widget.buildingId}&classId=${widget.classId}'));
+    final response = await http.get(Uri.parse('http://10.31.19.70/localconnect/GetComments.php?buildingId=${widget.buildingId}&classId=${widget.classId}'));
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -380,7 +392,7 @@ class _CommentPageState extends State<CommentPage> {
 
   Future<void> addComment(String newComment) async {
     final response = await http.post(
-      Uri.parse('http://10.32.10.162/localconnect/AddComment.php'),
+      Uri.parse('http://10.31.19.70/localconnect/AddComment.php'),
       body: {
         'buildingId': widget.buildingId.toString(),
         'classId': widget.classId.toString(),
@@ -522,7 +534,7 @@ class _DynamicPageofReservationState extends State<DynamicPageofReservation> {
   }
 
   Future<List<Map<String, dynamic>>> fetchUnavailableClassData() async {
-    final response = await http.get(Uri.parse('http://10.32.10.162/localconnect/GetClassStatus.php?classId=${widget.classId}'));
+    final response = await http.get(Uri.parse('http://10.31.19.70/localconnect/GetClassStatus.php?classId=${widget.classId}'));
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return List<Map<String, dynamic>>.from(data);

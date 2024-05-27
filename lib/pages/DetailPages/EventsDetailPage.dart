@@ -25,8 +25,8 @@ class EventControllerPage extends StatefulWidget {
 }
 
 class _EventControllerPageState extends State<EventControllerPage> {
-  final String createEventUrl = 'http://10.32.10.162/localconnect/create_event.php';
-  final String getEventsUrl = 'http://10.32.10.162/localconnect/get_events.php';
+  final String createEventUrl = 'http://10.31.19.70/localconnect/create_event.php';
+  final String getEventsUrl = 'http://10.31.19.70/localconnect/get_events.php';
 
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
