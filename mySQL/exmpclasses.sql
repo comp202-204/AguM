@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 05 May 2024, 14:08:01
+-- Üretim Zamanı: 26 May 2024, 18:29:41
 -- Sunucu sürümü: 10.4.32-MariaDB
 -- PHP Sürümü: 8.2.12
 
@@ -47,7 +47,10 @@ INSERT INTO `exmpclasses` (`building_id`, `class_id`, `class_name`, `date`, `tim
 (2, 5, 'FOD9', '2024-05-05', '14:00:00'),
 (2, 6, 'FOC35', '2024-05-05', '14:10:54'),
 (3, 7, 'B230', '2024-05-05', '14:00:00'),
-(3, 8, 'B234', '2024-05-05', '14:00:00');
+(3, 8, 'B234', '2024-05-05', '14:00:00'),
+(4, 9, 'BA018', '2024-05-05', '14:00:00'),
+(4, 10, 'BA014', '2024-05-05', '14:00:00'),
+(4, 11, 'BA007', '2024-05-05', '14:00:00');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -57,7 +60,7 @@ INSERT INTO `exmpclasses` (`building_id`, `class_id`, `class_name`, `date`, `tim
 -- Tablo için indeksler `exmpclasses`
 --
 ALTER TABLE `exmpclasses`
-  ADD PRIMARY KEY (`class_id`),
+  ADD PRIMARY KEY (`class_id`) USING BTREE,
   ADD KEY `building_id` (`building_id`);
 
 --
@@ -68,7 +71,7 @@ ALTER TABLE `exmpclasses`
 -- Tablo için AUTO_INCREMENT değeri `exmpclasses`
 --
 ALTER TABLE `exmpclasses`
-  MODIFY `class_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `class_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar

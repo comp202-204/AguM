@@ -49,7 +49,7 @@ class _CampusMapDetailPageState extends State<CampusMapDetailPage> {
   }
 
   Future<List<Building>> fetchBuildings() async {
-    final response = await http.get(Uri.parse('http://10.32.1.15/localconnect/classNumber_BuildingsInfo.php'));
+    final response = await http.get(Uri.parse('http://10.32.10.162/localconnect/classNumber_BuildingsInfo.php'));
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((json) => Building.fromJson(json)).toList();
@@ -115,7 +115,6 @@ class _CampusMapDetailPageState extends State<CampusMapDetailPage> {
               },
             );
           } else {
-            // This is to handle the case where snapshot.data is null
             return Center(child: Text('No data available'));
           }
         },
@@ -136,6 +135,8 @@ class PageManager extends StatelessWidget {
     required this.buildingId,
   });
 
+  static int globalClassId = 1; // Global class ID counter
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,6 +146,7 @@ class PageManager extends StatelessWidget {
       body: ListView.builder(
         itemCount: classNames.length,
         itemBuilder: (context, index) {
+          int classId = globalClassId++;
           return ListTile(
             title: Text(classNames[index]),
             onTap: () {
@@ -153,8 +155,8 @@ class PageManager extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => DynamicPage(
                     buildingId: buildingId,
-                    classId: index + 1,
-                    className: classNames[index], // Pass the class name to the DynamicPage
+                    classId: classId,
+                    className: classNames[index],
                   ),
                 ),
               );
@@ -240,10 +242,9 @@ class _DynamicPageState extends State<DynamicPage> {
                                         Text(
                                           'Comments',
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                          ),
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                              fontSize: 18),
                                         ),
                                       ],
                                     ),
@@ -265,71 +266,13 @@ class _DynamicPageState extends State<DynamicPage> {
                     padding: const EdgeInsets.all(20),
                     child: GestureDetector(
                       onTap: () {
-                        // Navigate to DetailPage
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.green[100],
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1.5, color: Colors.white),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.green,
-                              ),
-                              child: const Icon(Icons.info, color: Colors.white),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Detail',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      'Tap to view details',
-                                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  return Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navigate to a new page to show reservation details
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => DynamicPageofReservation(
                               buildingId: widget.buildingId,
                               classId: widget.classId,
-                              className: widget.className, // Pass the class name here
+                              className: widget.className,
                             ),
                           ),
                         );
@@ -394,7 +337,6 @@ class _DynamicPageState extends State<DynamicPage> {
   }
 }
 
-
 class CommentPage extends StatefulWidget {
   final int buildingId;
   final int classId;
@@ -411,8 +353,8 @@ class CommentPage extends StatefulWidget {
 }
 
 class _CommentPageState extends State<CommentPage> {
-  List<Comment> comments = []; // List to store comments
-  String newComment = ""; // Variable to store new comment
+  List<Comment> comments = [];
+  String newComment = "";
   TextEditingController commentController = TextEditingController();
 
   @override
@@ -422,8 +364,7 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   Future<void> getComments() async {
-    print('Fetching comments for Class ID: ${widget.classId}');
-    final response = await http.get(Uri.parse('http://10.32.1.15/localconnect/GetComments.php?buildingId=${widget.buildingId}&classId=${widget.classId}'));
+    final response = await http.get(Uri.parse('http://10.32.10.162/localconnect/GetComments.php?buildingId=${widget.buildingId}&classId=${widget.classId}'));
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -439,7 +380,7 @@ class _CommentPageState extends State<CommentPage> {
 
   Future<void> addComment(String newComment) async {
     final response = await http.post(
-      Uri.parse('http://10.32.1.15/localconnect/AddComment.php'),
+      Uri.parse('http://10.32.10.162/localconnect/AddComment.php'),
       body: {
         'buildingId': widget.buildingId.toString(),
         'classId': widget.classId.toString(),
@@ -448,7 +389,6 @@ class _CommentPageState extends State<CommentPage> {
     );
 
     if (response.statusCode == 200) {
-      // Handle successful response
       setState(() {
         comments.add(
           Comment(
@@ -459,7 +399,6 @@ class _CommentPageState extends State<CommentPage> {
       });
     } else {
       // Handle unsuccessful response
-      // You can show an error message or take appropriate action here
     }
   }
 
@@ -529,7 +468,7 @@ class ReservedTimesDetailPage extends StatelessWidget {
   ReservedTimesDetailPage({
     Key? key,
     required this.selectedClass,
-    required this.classStatus, // Add classStatus parameter
+    required this.classStatus,
   }) : super(key: key);
 
   @override
@@ -545,7 +484,6 @@ class ReservedTimesDetailPage extends StatelessWidget {
                 'Reserved Times for $selectedClass',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-// Filter and display reserved times based on classStatus
               if (classStatus == 'NotAvailable')
                 Text(
                   'No available times',
@@ -584,7 +522,7 @@ class _DynamicPageofReservationState extends State<DynamicPageofReservation> {
   }
 
   Future<List<Map<String, dynamic>>> fetchUnavailableClassData() async {
-    final response = await http.get(Uri.parse('http://10.32.1.15/localconnect/GetClassStatus.php?classId=${widget.classId}'));
+    final response = await http.get(Uri.parse('http://10.32.10.162/localconnect/GetClassStatus.php?classId=${widget.classId}'));
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return List<Map<String, dynamic>>.from(data);
@@ -617,7 +555,7 @@ class _DynamicPageofReservationState extends State<DynamicPageofReservation> {
                 final reservationDate = unavailableData['date'];
 
                 return ListTile(
-                  title: Text('Time: $startTime - $endTime - Class: $className - Reservation Date: $reservationDate'), // Updated line
+                  title: Text('Time: $startTime - $endTime - Class: $className - Reservation Date: $reservationDate'),
                 );
               },
             );

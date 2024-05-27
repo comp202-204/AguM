@@ -42,4 +42,3 @@ if ($result) {
 // Veritabanı bağlantısını kapat
 $conn->close();
 ?>
-

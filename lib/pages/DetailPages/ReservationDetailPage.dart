@@ -28,7 +28,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
   DateTime? selectedDate;
   TimeOfDay? startTime;
   TimeOfDay? endTime;
-  List<Map<String, String>> availableClasses = [];
+  List<String> availableClasses = [];
   List<String> selectedClasses = [];
   bool isLoading = false;
 
@@ -44,32 +44,20 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
       isLoading = true;
     });
 
-    final String formattedDate = "${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}";
-    final String formattedStartTime = "${startTime!.hour.toString().padLeft(2, '0')}:${startTime!.minute.toString().padLeft(2, '0')}:00";
-    final String formattedEndTime = "${endTime!.hour.toString().padLeft(2, '0')}:${endTime!.minute.toString().padLeft(2, '0')}:00";
+    final String formattedDate = "${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}";
+    final String formattedStartTime = "${startTime!.hour}:${startTime!.minute}";
+    final String formattedEndTime = "${endTime!.hour}:${endTime!.minute}";
 
     try {
       var response = await http.get(
-        Uri.parse('http://10.32.1.15/localconnect/getAvailableClasses.php?date=$formattedDate&start_time=$formattedStartTime&end_time=$formattedEndTime'),
+        Uri.parse('http://10.32.10.162/localconnect/getAvailableClasses.php?date=$formattedDate&start_time=$formattedStartTime&end_time=$formattedEndTime'),
       );
 
       if (response.statusCode == 200) {
-        print(response.body); // Debug logging
         List<dynamic> data = json.decode(response.body);
-
-        // Check if data is a list of strings or maps
-        if (data.isNotEmpty && data.first is String) {
-          // If data is a list of strings
-          setState(() {
-            availableClasses = data.map((item) => {'name': item.toString()}).toList();
-          });
-        } else {
-          // If data is a list of maps
-          setState(() {
-            availableClasses = List<Map<String, String>>.from(data.map((item) => Map<String, String>.from(item)));
-          });
-        }
-
+        setState(() {
+          availableClasses = List<String>.from(data.map((item) => item.toString()));
+        });
         if (availableClasses.isEmpty) {
           throw Exception('No available classes');
         }
@@ -140,7 +128,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
             "${endTime!.hour.toString().padLeft(2, '0')}:${endTime!.minute.toString().padLeft(2, '0')}:00";
 
         var response = await http.put(
-          Uri.parse('http://10.32.1.15/localconnect/updateClassStatus.php'),
+          Uri.parse('http://10.32.10.162/localconnect/updateClassStatus.php'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode({
             'date': formattedDate,
@@ -152,7 +140,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
 
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Your reservation has been made successfully')),
+            SnackBar(content: Text('Class status updated successfully')),
           );
         } else {
           throw Exception('Failed to update class status');
@@ -333,10 +321,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
                           style: TextStyle(fontSize: 20.0, color: Colors.white),
                         ),
                         ElevatedButton(
-                          onPressed: () async {
-                            await _fetchAvailableClasses();
-                            await _navigateToAvailableClassesPage(context);
-                          },
+                          onPressed: () => _fetchAvailableClasses().then((_) => _navigateToAvailableClassesPage(context)),
                           child: Text('Select Classes', style: TextStyle(fontSize: 18.0, color: Colors.white)),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromRGBO(174, 32, 41, 1),
@@ -391,7 +376,7 @@ class _ReservationDetailPageState extends State<ReservationDetailPage> {
 }
 
 class AvailableClassesPage extends StatefulWidget {
-  final List<Map<String, String>> availableClasses;
+  final List<String> availableClasses;
   final DateTime selectedDate;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
@@ -441,19 +426,9 @@ class _AvailableClassesPageState extends State<AvailableClassesPage> {
             child: ListView.builder(
               itemCount: widget.availableClasses.length,
               itemBuilder: (context, index) {
-                final classData = widget.availableClasses[index];
-                final className = classData['name']!;
-                final startTime = widget.startTime.format(context);
-                final endTime = widget.endTime.format(context);
+                final className = widget.availableClasses[index];
                 return ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(className),
-                      SizedBox(height: 4),
-                      Text("Start Time: $startTime, End Time: $endTime"),
-                    ],
-                  ),
+                  title: Text(className),
                   trailing: Checkbox(
                     value: selectedClasses.contains(className),
                     onChanged: (bool? value) {
@@ -486,9 +461,9 @@ class _AvailableClassesPageState extends State<AvailableClassesPage> {
                       : () {
                     Navigator.pop(context, selectedClasses);
                   },
-                  child: Text('Confirm Selection', style: TextStyle(color: Colors.white)),
+                  child: Text('Confirm Selection'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: selectedClasses.isEmpty ? Colors.black54 : Colors.deepPurple,
+                    backgroundColor: selectedClasses.isEmpty ? Colors.grey : Colors.deepPurple,
                   ),
                 ),
               ],
@@ -499,4 +474,3 @@ class _AvailableClassesPageState extends State<AvailableClassesPage> {
     );
   }
 }
-

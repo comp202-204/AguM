@@ -14,7 +14,7 @@ class RunMyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.green),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('MonthlyLunch'),
+          title: Text('Monthly Lunch'),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
